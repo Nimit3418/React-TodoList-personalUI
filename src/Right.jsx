@@ -5,28 +5,31 @@ import { X } from 'lucide-react'
 import AddCard from './AddCard'
 import Card from './Card'
 
-const Right = ({open,setOpen}) => {
+const Right = ({ open, setOpen }) => {
   const [card, setCard] = useState([])
-  const handleAddCard=(newcard)=>{
-    setCard([...card,newcard]);
+  const handleAddCard = (newcard) => {
+    setCard([...card, newcard]);
   }
+  const handleDelete = (indexToDelete) => {
+    setCard(card.filter((_, index) => index !== indexToDelete));
+  };
 
   return (
     <div className='h-screen w-4/5 p-5'>
       <Navbar />
-      <div  className=' h-screen w-full' >
+      <div className=' h-screen w-full' >
         {
-          open && 
-          <div className='fixed inset-0 bg-white/30 backdrop-blur-2xl flex justify-center items-center' onClick={()=>{return setOpen(false)}}>
-            <AddCard open={open} setOpen={setOpen} onAdd={handleAddCard}/>
+          open &&
+          <div className='fixed inset-0 bg-white/30 backdrop-blur-2xl flex justify-center items-center' onClick={() => { return setOpen(false) }}>
+            <AddCard open={open} setOpen={setOpen} onAdd={handleAddCard} />
           </div>
         }
         <div className='flex flex-wrap m-2'>
           {
-          card.map((item,index)=>
-            (<Card key={index} data={item}/>)
-          )
-        }
+            card.map((item, index) =>
+              (<Card key={index} data={item} onDelete={()=>(handleDelete(index))}/>)
+            )
+          }
         </div>
 
       </div>
